@@ -21,20 +21,30 @@ form.addEventListener("submit", (e) => {
             Authorization: "Basic " + btoa(data.username + ":" + data.password),
         },
     })
-        .then((resp) => (resp.ok ? resp.json() : ""))
-        .then((jwt) => (document.cookie = `JWT=${jwt};`))
+        .then((resp) => {
+            if (resp.ok) return resp.json();
+            throw new Error("Invalid username/email of password");
+        })
+        .then((JWT) => {
+            document.cookie = `JWT=${JWT};`;
+            return JWT;
+        })
         .then(loadPage)
         .catch(console.error);
 });
 
 async function loadPage(JWT) {
-    root.innerHTML = ``;
+    if (!JWT) return;
+
     fetch(`${API_ENDPOINT}/graphql-engine/v1/graphql`, {
-        method: "GET",
+        method: "POST",
         headers: {
-            Authorization: "Bearer " + JWT,
+            Authorization: `Bearer ${JWT}`,
         },
+        body: JSON.stringify({
+            query: `{ user { id login } }`,
+        }),
     })
-        .then((resp) => (resp.ok ? resp.text() : null))
+        .then((resp) => (resp.ok ? resp.json() : null))
         .then(console.log);
 }
