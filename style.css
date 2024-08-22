@@ -1,7 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
     box-sizing: content-box;
+    font-family: "IBM Plex Mono", monospace;
+}
+
+.viewport {
+    min-width: 100dvw;
+    min-height: 100dvh;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    --size: 200px;
+    width: var(--size);
+    height: var(--size);
+    border: 5px solid #fff;
+    border-bottom-color: #106efa;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+.logout {
+    cursor: pointer;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+header #userbox {
+    display: flex;
+    width: 240px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#xp-bar {
+    display: flex;
+    align-items: center;
+}
+
+#xp-bar .courses {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+
+#skills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    place-items: center;
+    row-gap: 40px;
+    user-select: none;
+}
+
+#skills h3 {
+    text-align: center;
+}
+
+#skills svg {
+    width: 100px;
+}
+
+#audits {
+    display: grid;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    place-items: center;
+    width: 200px;
 }
