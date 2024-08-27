@@ -90,8 +90,9 @@ async function loadPage(JWT) {
     const skills = SkillsGraph(user);
 
     const XPG = XPGraph();
+    XPG.id = "XPGraph";
 
-    main.append(XPG, userDiv, XP, audit, skills);
+    main.append(userDiv, XP, audit, skills, XPG);
     root.replaceChildren(header, main);
 }
 

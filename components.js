@@ -10,9 +10,7 @@ export function Header(user) {
     const home = document.createElement("a");
     const logo = document.createElement("img");
     const userbox = document.createElement("div");
-    const title = document.createElement("h1");
 
-    title.textContent = "Student Platform";
     home.href = "https://zone01normandie.org";
     logo.src = "assets/logo.png";
     logo.height = 50;
@@ -33,7 +31,7 @@ export function Header(user) {
     home.appendChild(logo);
     a.appendChild(gitea);
     userbox.append(username, a, logout);
-    header.append(home, title, userbox);
+    header.append(home, userbox);
     return header;
 }
 
@@ -96,6 +94,8 @@ export function XPCard({ id }) {
 
 export function AuditCard({ auditRatio, totalUp, totalDown }) {
     const div = document.createElement("div");
+    div.style.margin = "20px";
+
     const title = document.createElement("h3");
     const up = document.createElement("div");
     const img = document.createElement("img");
@@ -118,13 +118,15 @@ export function AuditCard({ auditRatio, totalUp, totalDown }) {
 }
 
 export function UserCard({ firstName, lastName }) {
-    const div = document.createElement("div");
+    const div = document.createElement("h1");
+    div.style.margin = "20px";
     div.textContent = `Welcome, ${firstName}${lastName}`.trim();
     return div;
 }
 
 export function SkillsGraph({ transactions }) {
     const div = document.createElement("div");
+    div.style.margin = "20px";
 
     const skills = transactions.map((tx) => {
         const skillDiv = document.createElement("div");
@@ -182,11 +184,18 @@ export function SkillsGraph({ transactions }) {
 }
 
 export function XPGraph() {
-    const div = document.createElement("div");
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const axis = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const points = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const xptext = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+    const timetext = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
     let sum = 0;
     const offset = 10;
     let d = `M${offset} ${100 + offset}`;
@@ -201,6 +210,16 @@ export function XPGraph() {
     );
     svg.setAttribute("viewBox", `0 0 ${100 + 2 * offset} ${100 + 2 * offset}`);
     axis.setAttribute("stroke", "black");
+    xptext.setAttribute("x", offset - 2);
+    xptext.setAttribute("y", offset - 2);
+    timetext.setAttribute("x", 90 + offset);
+    timetext.setAttribute("y", 98 + offset);
+
+    xptext.setAttribute("font-size", "0.3em");
+    timetext.setAttribute("font-size", "0.3em");
+
+    timetext.textContent = "Time";
+    xptext.textContent = "XP";
 
     xAxis.setAttribute("x1", offset);
     xAxis.setAttribute("x2", 100 + offset);
@@ -264,13 +283,12 @@ export function XPGraph() {
                 };
 
                 d = `${d} L${coords.y} ${coords.x}`;
-                path.setAttribute("d", d);
             }
+            path.setAttribute("d", d);
         })
         .catch(console.error);
 
     axis.append(xAxis, yAxis);
-    svg.append(axis, points, path);
-    div.append(svg);
-    return div;
+    svg.append(xptext, timetext, axis, points, path);
+    return svg;
 }
