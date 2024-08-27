@@ -27,6 +27,7 @@ const root = document.getElementById("root");
 const form = document.getElementById("login");
 
 form.addEventListener("submit", (e) => {
+    const error = document.getElementById("error-message");
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
     const auth = btoa(`${data.username}:${data.password}`);
@@ -44,7 +45,7 @@ form.addEventListener("submit", (e) => {
             return () => JWT;
         })
         .then(loadPage)
-        .catch(console.error);
+        .catch(() => (error.textContent = "Invalid credentials"));
 });
 
 async function loadPage(JWT) {
